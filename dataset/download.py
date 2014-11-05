@@ -5,7 +5,8 @@ from sys import argv
 from os import path, remove, walk
 from logging import info, basicConfig
 
-from utils.pyutils import snd
+from utils.pyutils import last
+from unwrap import unwrap
 
 GIT_STRING_TEMPLATE = ['git', 'clone']
 
@@ -29,18 +30,21 @@ def download_python(directory):
     directory += '-python'
     download(directory, relative_path('python.txt'))
     clean(directory, ['py'])
+    unwrap(directory)
 
 
 def download_java(directory):
     directory += '-java'
     download(directory, relative_path('java.txt'))
     clean(directory, ['java'])
+    unwrap(directory)
 
 
 def download_c(directory):
     directory += '-c'
     download(directory, relative_path('c.txt'))
-    clean(directory, ['c'])
+    clean(directory, ['c', 'h'])
+    unwrap(directory)
 
 
 def clean(directory, extensions):
@@ -55,7 +59,7 @@ def clean(directory, extensions):
 
 def file_fits(f, extensions):
     separated_file = f.split('.')
-    return len(separated_file) > 1 and snd(separated_file) in extensions
+    return len(separated_file) > 1 and last(separated_file) in extensions
 
 
 if __name__ == '__main__':

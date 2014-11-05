@@ -1,6 +1,6 @@
-#https://github.com/torvalds/linux.git
+# https://github.com/torvalds/linux.git
 https://github.com/mkpankov/qake.git
-# https://github.com/h2o/h2o.git
+https://github.com/h2o/h2o.git
 https://github.com/irungentoo/toxcore.git
 # https://github.com/fastos/fastsocket.git
 # https://github.com/lastpass/lastpass-cli.git
