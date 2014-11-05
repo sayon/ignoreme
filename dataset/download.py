@@ -4,6 +4,7 @@ __author__ = 'nikita_kartashov'
 
 from subprocess import call
 from os import path, remove, walk
+from logging import info, basicConfig
 
 GIT_STRING_TEMPLATE = ['git', 'clone']
 
@@ -22,14 +23,17 @@ def download(directory, repos):
 
 def download_python(directory):
     download(directory, relative_path('python.txt'))
+    clean(directory, ['py'])
 
 
 def download_java(directory):
     download(directory, relative_path('java.txt'))
+    clean(directory, ['java'])
 
 
 def download_c(directory):
     download(directory, relative_path('c.txt'))
+    clean(directory, ['c'])
 
 
 def clean(directory, extensions):
@@ -39,8 +43,8 @@ def clean(directory, extensions):
             if path.isfile(full_path) \
                     and not path.isdir(full_path) \
                     and not file_fits(full_path, extensions):
-                print(full_path)
-                # remove(path.join(root, dirs, f))
+                info('Removed {0}'.format(full_path))
+                remove(full_path)
 
 
 def file_fits(f, extensions):
@@ -49,6 +53,6 @@ def file_fits(f, extensions):
 
 
 if __name__ == '__main__':
-
-    # download('lolololol', path.join(REPO_PATH, 'lol.txt'))
-    clean('lolololol', [])
+    basicConfig(filename='download_logging.log')
+    download('lolololol', path.join(REPO_PATH, 'lol.txt'))
+    clean('lolololol', ['py'])
