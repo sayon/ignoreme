@@ -1,0 +1,6 @@
+https://github.com/jiaaro/pydub.git
+https://github.com/balloob/home-assistant.git
+https://github.com/mitsuhiko/flask.git
+https://github.com/django/django.git
+https://github.com/scrapy/scrapy.git
+https://github.com/kennethreitz/requests.git
