@@ -1,4 +1,14 @@
 import sys
+import re
+
+def quote(s):
+    return "\"" + str(s) + "\""
+
+def loadDict(filename):
+    f = open(filename)
+    res = set(map(lambda w: w.replace("\n", ""), f.readlines()))
+    f.close()
+    return res
 
 
 def getOrDef(dic, key):
@@ -12,17 +22,19 @@ if len(sys.argv) ==0:
 else:
     out = open("out.csv", "w")
     keys = []
+    dic = loadDict(sys.argv[1])
 
-    encountered = set()
+
+    encountered = set(dic)
     freqs = []
-    for arg in sys.argv[1:]:
+    for arg in sys.argv[2:]:
         print "processing " + arg
         try:
             f = open(arg, 'r')
             freq = dict()
 
             conts =  f.read()
-            print("Contents:" + conts + "\n")
+            # print("Contents:" + conts + "\n")
             f.close()
 
             #character frequencies
@@ -31,10 +43,8 @@ else:
                     encountered.add(c)
                     freq[c] = getOrDef(freq,c) + 1
 
-            for w in filter(None, ''.join(conts).split(' ')):
-                encountered.add(w)
-                freq[w] = getOrDef(freq, w) + 1
-
+            for key in dic:
+                freq[key] =  len(re.findall(key, conts))
             freqs.append(freq)
 
         except IOError as e:
@@ -42,11 +52,12 @@ else:
             print("Can't open file " + arg)
 
 
-    out.write(','.join(encountered) + "\n")
-    for i in xrange(0, len(sys.argv)-1):
+    out.write(",".join(map(quote, encountered)) + "\n")
+    for i in xrange(0, len(sys.argv)-2):
         s = ""
         for w in encountered:
-            s = s + str(getOrDef(freqs[i], w)) + ","
+            elem = str(getOrDef(freqs[i], w))
+            s = s + elem + ","
         out.write(s[0:-1] + "\n")
 
     #     out.write(','.join(map(lambda w : getOrDef(freqs[i], w),encountered)) + '\n')
