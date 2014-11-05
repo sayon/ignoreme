@@ -1,8 +1,6 @@
 import sys
 
 
-from itertools import chain
-
 def getOrDef(dic, key):
     if not key in dic.keys():
         return 0
@@ -18,7 +16,7 @@ else:
     encountered = set()
     freqs = []
     for arg in sys.argv[1:]:
-        print("doing work on " + arg + "\n")
+        print "processing " + arg
         try:
             f = open(arg, 'r')
             freq = dict()
