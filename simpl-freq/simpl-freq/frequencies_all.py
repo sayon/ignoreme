@@ -40,7 +40,7 @@ results = dict()
 for language in languages:
     print "Language: " , language
     files = [ f for f in os.listdir(language) if os.path.isfile(join(language,f)) ]
-    print "Files: ", files
+    # print "Files: ", files
 
     kws = dict()
     for kw in readList(language+"_keywords.txt"):
@@ -60,7 +60,7 @@ for language in languages:
                 length_total += 1
 
         for w in features.keys():
-            features[w] = features[w] * 1. / length_total
+            if length_total != 0 : features[w] = features[w] * 1. / length_total
         file.close()
         results[filename] = (features, language)
 
@@ -74,7 +74,8 @@ out.write("name," + ",".join(map(quote, allfeatures)) + "\n")
 for entry in results.keys():
     out.write(results[entry][1])
     for feature in allfeatures:
-        out.write("," + str(getOrZero(results[entry][0], feature)))
+        if '\0' not in feature:
+            out.write("," + str(getOrZero(results[entry][0], feature)))
     out.write("\n")
 
 
