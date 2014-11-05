@@ -59,6 +59,8 @@ for language in languages:
                 features[sym] = getOrZero(features, sym ) + 1
                 length_total += 1
 
+        for w in features.keys():
+            features[w] = features[w] * 1. / length_total
         file.close()
         results[filename] = (features, language)
 
