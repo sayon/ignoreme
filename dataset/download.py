@@ -26,16 +26,19 @@ def download(directory, repos):
 
 
 def download_python(directory):
+    directory += '-python'
     download(directory, relative_path('python.txt'))
     clean(directory, ['py'])
 
 
 def download_java(directory):
+    directory += '-java'
     download(directory, relative_path('java.txt'))
     clean(directory, ['java'])
 
 
 def download_c(directory):
+    directory += '-c'
     download(directory, relative_path('c.txt'))
     clean(directory, ['c'])
 
@@ -44,8 +47,7 @@ def clean(directory, extensions):
     for root, dirs, files in walk(directory):
         for f in files:
             full_path = path.join(root, f)
-            if path.isfile(full_path) \
-                    and not path.isdir(full_path) \
+            if not path.isdir(full_path) \
                     and not file_fits(full_path, extensions):
                 info('Removed {0}'.format(full_path))
                 remove(full_path)
