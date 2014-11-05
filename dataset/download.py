@@ -1,10 +1,11 @@
-from dataset.utils.pyutils import snd
-
 __author__ = 'nikita_kartashov'
 
 from subprocess import call
+from sys import argv
 from os import path, remove, walk
 from logging import info, basicConfig
+
+from utils.pyutils import snd
 
 GIT_STRING_TEMPLATE = ['git', 'clone']
 
@@ -18,7 +19,10 @@ def relative_path(repos):
 def download(directory, repos):
     with open(repos) as repo_file:
         for repo in repo_file.readlines():
-            call(GIT_STRING_TEMPLATE + [repo, directory])
+            if repo.startswith('#'):
+                continue
+            result_path = path.join(directory, path.basename(repo).split('.')[0])
+            call(GIT_STRING_TEMPLATE + [repo.strip(), result_path])
 
 
 def download_python(directory):
@@ -54,5 +58,7 @@ def file_fits(f, extensions):
 
 if __name__ == '__main__':
     basicConfig(filename='download_logging.log')
-    download('lolololol', path.join(REPO_PATH, 'lol.txt'))
-    clean('lolololol', ['py'])
+    languages = [download_c, download_java, download_python]
+    directory = argv[1]
+    for lang in languages:
+        lang(directory)
