@@ -1,6 +1,6 @@
 https://github.com/google/guava.git
 https://github.com/google/guice.git
-https://github.com/zxing/zxing.git
+# https://github.com/zxing/zxing.git
 https://github.com/torodb/torodb.git
 https://github.com/iluwatar/java-design-patterns.git
-https://github.com/elasticsearch/elasticsearch.git
+# https://github.com/elasticsearch/elasticsearch.git
