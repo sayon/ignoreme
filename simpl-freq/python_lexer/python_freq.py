@@ -19,7 +19,7 @@ def python_keywords():
 
 
 def token_frequencies(token_tuples):
-    return list(Counter(map(snd, token_tuples)).most_common())
+    return dict(Counter(map(snd, token_tuples)).most_common())
 
 
 def normalize_by_number_of_occurrences(frequencies):
@@ -30,6 +30,7 @@ def normalize_by_number_of_occurrences(frequencies):
 def clean_tokens_frequencies(readline, normalize=normalize_by_number_of_occurrences):
     keywords = python_keywords()
     tokens = clean_tokens(readline)
+    ( for key in keywords)
     frequencies = filter(lambda x: fst(x) in keywords, token_frequencies(tokens))
     return normalize(frequencies)
 
