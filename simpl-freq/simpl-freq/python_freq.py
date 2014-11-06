@@ -22,13 +22,19 @@ def token_frequencies(token_tuples):
     return list(Counter(map(snd, token_tuples)).most_common())
 
 
-def clean_tokens_frequencies(readline):
+def normalize_by_number_of_occurrences(frequencies):
+    total_frequencies = sum(map(snd, frequencies))
+    return dict((key, frequency * 1.0 / total_frequencies) for key, frequency in frequencies)
+
+
+def clean_tokens_frequencies(readline, normalize=normalize_by_number_of_occurrences):
     keywords = python_keywords()
     tokens = clean_tokens(readline)
-    freqs = filter(lambda x: fst(x) in keywords, token_frequencies(tokens))
-    return freqs
+    frequencies = filter(lambda x: fst(x) in keywords, token_frequencies(tokens))
+    return normalize(frequencies)
 
 
 if __name__ == '__main__':
     with open(__file__) as f:
-        print(clean_tokens_frequencies(f.readline))
+        frequencies = clean_tokens_frequencies(f.readline)
+        print(frequencies)
