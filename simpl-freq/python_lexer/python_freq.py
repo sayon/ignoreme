@@ -3,10 +3,11 @@ __author__ = 'nikita_kartashov'
 from os import path
 from collections import Counter
 
-from utils.pyutils import fst, snd
+from utils.pyutils import snd
 from Tokenizer.python.python import clean_tokens
 
-KEYWORD_PATH = 'python_keywords.txt'
+
+KEYWORD_PATH = '../python_keywords.txt'
 
 
 def relative_path(path_part):
@@ -30,12 +31,10 @@ def normalize_by_number_of_occurrences(frequencies):
 def clean_tokens_frequencies(readline, normalize=normalize_by_number_of_occurrences):
     keywords = python_keywords()
     tokens = clean_tokens(readline)
-    ( for key in keywords)
-    frequencies = filter(lambda x: fst(x) in keywords, token_frequencies(tokens))
-    return normalize(frequencies)
+    frequencies = token_frequencies(tokens)
+    return normalize(map(lambda k: (k, frequencies.get(k, 0)), keywords))
 
 
 if __name__ == '__main__':
     with open(__file__) as f:
         frequencies = clean_tokens_frequencies(f.readline)
-        print(frequencies)
