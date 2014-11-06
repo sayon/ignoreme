@@ -24,29 +24,29 @@ def countKeywords(kws, filename):
 
 
 def countKeywordsAndSymbols(kws, filename):
-    count = dict()
-    symbols = dict()
+    kwCount = dict()
+    symCount = dict()
     for kw in kws:
-        count[kw] = 0
+        kwCount[kw] = 0
     with open(filename, 'r') as file:
         contents = file.read()
         for kw in kws:
-            count[kw] = len(re.findall(kw, contents))
+            kwCount[kw] = len(re.findall(kw, contents))
         sanitizedContents = contents.replace(" ", "").replace("\t", "").replace("\n", "")
-        totalKeywords = sum(count.values()) * 1.0
+        totalKeywords = sum(kwCount.values()) * 1.0
         if totalKeywords != 0:
             for kw in kws:
-                count[kw] /= totalKeywords
+                kwCount[kw] /= totalKeywords
 
         for sym in sanitizedContents:
-           symbols[sym] = symbols.get(sym, 0) + 1
+           symCount[sym] = symCount.get(sym, 0) + 1
 
         totalLength = len(sanitizedContents) * 1.
         if totalLength != 0:
-            for sym in symbols:
-                symbols[sym] /= totalLength
+            for sym in symCount:
+                symCount[sym] /= totalLength
 
-    return count
+    return dict(symCount, **kwCount)
 
 
 if __name__ == "__main__":
