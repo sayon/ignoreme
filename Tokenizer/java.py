@@ -65,6 +65,7 @@ class JavaTokenizer:
         'ID'
         , 'STRING_LITERAL'
         , 'NUMBER'
+        , 'ANNOTATION'
         , 'COMMENT'
         , 'LINE_COMMENT'
         , 'MULTI_COMMENT_LEFT'
@@ -94,6 +95,10 @@ class JavaTokenizer:
     def t_NUMBER(self, t):
         return t
 
+    @check_comment
+    def t_ANNOTATION(self, t):
+        return t
+
     def t_LINE_COMMENT(self, t):
         t.type = 'COMMENT'
         return t
@@ -115,9 +120,10 @@ class JavaTokenizer:
         t.lexer.skip(1)
 
     def __init__(self, **kwargs):
-        self.t_ID.__func__.__doc__ = r'[@a-zA-z_][a-zA-Z0-9]*'
+        self.t_ID.__func__.__doc__ = r'[a-zA-z_][a-zA-Z0-9_]*'
         self.t_STRING_LITERAL.__func__.__doc__ = r'\'.*\''
         self.t_NUMBER.__func__.__doc__ = r'\d+'
+        self.t_ANNOTATION.__func__.__doc__ = r'@[a-zA-z_][a-zA-Z0-9_]*'
         self.t_LINE_COMMENT.__func__.__doc__ = r'//.*'
         self.t_MULTI_COMMENT_LEFT.__func__.__doc__ = r'/\*.*'
         self.t_MULTI_COMMENT_RIGHT.__func__.__doc__ = r'.*\*/'
