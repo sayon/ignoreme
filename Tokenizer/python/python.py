@@ -1,7 +1,7 @@
 __author__ = 'nikita_kartashov'
 
 from tokenize import generate_tokens
-from token import *
+from token import NUMBER, STRING, N_TOKENS
 from itertools import ifilterfalse
 
 from utils.pyutils import fst, snd
@@ -25,6 +25,6 @@ def clean_tokens(readline):
 
 
 if __name__ == '__main__':
-    with open('python.py') as f:
+    with open(__file__) as f:
         for line in clean_tokens(f.readline):
             print(line)

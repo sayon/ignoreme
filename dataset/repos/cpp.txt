@@ -1,0 +1,5 @@
+https://github.com/boostorg/math.git
+https://github.com/boostorg/fusion.git
+https://github.com/boostorg/geometry.git
+https://github.com/boostorg/thread.git
+https://github.com/boostorg/graph.git
