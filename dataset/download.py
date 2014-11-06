@@ -8,6 +8,7 @@ from logging import info, basicConfig
 from utils.pyutils import last
 from unwrap import unwrap
 
+
 GIT_STRING_TEMPLATE = ['git', 'clone']
 
 REPO_PATH = path.join(path.dirname(__file__), 'repos')
