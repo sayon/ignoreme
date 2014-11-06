@@ -14,7 +14,6 @@ def clean_tokens(readline):
     def matcher(token_tuple):
         token_type = fst(token_tuple)
         token_value = snd(token_tuple)
-        print (token_tuple)
         should_be_discarded = not token_value or \
                               token_type == NUMBER or \
                               token_type == STRING or \
