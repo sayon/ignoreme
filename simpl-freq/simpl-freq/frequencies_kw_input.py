@@ -16,6 +16,10 @@ def countKeywords(kws, filename):
         contents = file.read()
         for kw in kws:
             count[kw] = len(re.findall(kw, contents))
+        total = sum(count.values()) * 1.0
+        for kw in kws:
+            count[kw] /= total
+
     return count
 
 
