@@ -6,31 +6,32 @@ local_repo = os.path.expandvars("$HOME/.ignoreme")
 current_path = os.getcwd();
 
 def init():
-  if os.path.exists(local_repo + "/.git"):
-    pull()
-  else:
-    clone()
+    if os.path.exists(local_repo + "/.git"):
+        pull()
+    else:
+        clone()
 
 def clone():
-  os.system("git clone -q %s %s" % (remote_repo, local_repo))
+    os.system("git clone -q %s %s" % (remote_repo, local_repo))
 
 def pull():
-  os.chdir(local_repo)
-  os.system("git pull -q origin master")
-  os.chdir(current_path)
+    os.chdir(local_repo)
+    os.system("git pull -q origin master")
+    os.chdir(current_path)
 
-def dump():
-  with open(".gitignore", 'w+') as output:
-    for lang in sys.argv[1:]:
-      path = "%s/%s.gitignore" % (local_repo, lang)
-      if os.path.exists(path):
-        with open(path, 'r') as f:
-          output.write(f.read())
+def dump(langs):
+    init()
+    with open(".gitignore", 'w+') as output:
+        for lang in langs:
+            path = "%s/%s.gitignore" % (local_repo, lang)
+            if os.path.exists(path):
+                with open(path, 'r') as f:
+                    output.write(f.read())
 
-      path = "%s/Global/%s.gitignore" % (local_repo, lang)
-      if os.path.exists(path):
-        with open(path, 'r') as f:
-          output.write(f.read())
+            path = "%s/Global/%s.gitignore" % (local_repo, lang)
+            if os.path.exists(path):
+                with open(path, 'r') as f:
+                    output.write(f.read())
 
-init()
-dump()
+# usage:
+dump(['java', 'haskell', 'agda'])
