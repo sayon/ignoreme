@@ -15,7 +15,7 @@ else:
 
     encountered = set()
     freqs = []
-    for arg in sys.argv[1:]:
+    for arg in sys.argv[2:]:
         print "processing " + arg
         try:
             f = open(arg, 'r')
@@ -35,6 +35,7 @@ else:
                 encountered.add(w)
                 freq[w] = getOrDef(freq, w) + 1
 
+            map(lambda key: str(len(re.findall(key, conts))), dic)
             freqs.append(freq)
 
         except IOError as e:

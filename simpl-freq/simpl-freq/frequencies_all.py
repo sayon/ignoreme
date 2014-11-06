@@ -66,7 +66,7 @@ for language in languages:
 
 
 allfeatures = reduce(lambda x, y: x | set(y[0].keys()) , results.values(), set())
-
+allfeatures = filter(lambda x: not '\0' in x, allfeatures)
 out = open("out.csv", "w")
 
 out.write("name," + ",".join(map(quote, allfeatures)) + "\n")
