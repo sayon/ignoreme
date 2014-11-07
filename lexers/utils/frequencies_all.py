@@ -12,9 +12,9 @@ for language in languages:
     files = [f for f in os.listdir(language) if os.path.isfile(join(language, f))]
     fileno = 1
     kws = readList(language + "_keywords.txt")
-
     for filename in files:
-        print filename, " file ", fileno, " out of ", len(files)
+        if fileno % 10 == 0:
+            print filename, " file ", fileno, " out of ", len(files)
         fileno += 1
 
         with open(language + "/" + filename, 'r') as file:
@@ -31,4 +31,3 @@ with open("out_nonalpha.csv", "w") as out:
         for feature in allFeatures:
                 out.write("," + str( results[entry][0].get(feature, 0)))
         out.write("\n")
-
