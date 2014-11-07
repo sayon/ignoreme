@@ -5,7 +5,7 @@ import sys
 
 import app.utils as ut
 import app.read_configs as cfg
-from lexers.utils import frequencies_kw_input as lex
+import lexers.utils.common as lex
 from gitignore_gen import gen as gitgen
 from utils.pyutils import relative_path, snd, fst
 
@@ -34,34 +34,29 @@ def compute_neurons(inputs, models_coefficients, features_order):
     return dict(raw_dict)
 
 
-def inputs_dict(filename, kws, model_coeffs):
-    inp = lex.countKeywords(kws, filename)
-    # inp = lex.countKeywordsAndSymbols(kws, filename)
-    # all_features = model_coeffs.values()[0]
-    # for k, v in all_features.iteritems():
-    # if k not in inp:
-    # inp[k] = 0
-    return dict([(name, inp) for name, _ in model_coeffs.iteritems()])
-
-
 KEYWORDS_PATHS = ['lexers/utils/c_keywords.txt',
                   'lexers/utils/java_keywords.txt',
                   'lexers/utils/python_keywords.txt']
 
 
+def inputs_dict(filename, kws):
+    with open(filename, "r") as in_file:
+        contents = in_file.read()
+        return lex.keywordsAndSymbolsFrequencies(kws, contents)
+
+
 def detect(filename):
-    kws = cfg.read_kws(*list(map(lambda path_part: relative_path(path_part, __file__), KEYWORDS_PATHS)))
+    paths = map(lambda path_part: relative_path(path_part, __file__), KEYWORDS_PATHS)
+    inputs = inputs_dict(filename, cfg.read_kws(paths))
+    inputs.update({'intercept' : 1})
+    features_order = inputs.keys()
     model_coeffs = cfg.read_config()
-    model_c = {}
-    for k, v in model_coeffs.iteritems():
-        model_c[k] = dict(filter(lambda x: x[0] in kws, v.iteritems()))
-    inputs = inputs_dict(filename, kws, model_c)
-    responses_dict = compute_neurons(inputs, model_coeffs, kws)
+    responses_dict = compute_neurons(inputs, model_coeffs, features_order)
     min_response = min(responses_dict.iteritems(), key=snd)
-    print(fst(min_response))
-    # Capitalize language so downloader will download it correctly
     return fst(min_response).capitalize()
 
 
 if __name__ == '__main__':
-    gitgen.dump(list(map(detect, sys.argv[1:])))
+    langs = map(detect, sys.argv[1:])
+    print('\n'.join(langs))
+    gitgen.dump(langs)
