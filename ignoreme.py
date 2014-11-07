@@ -40,6 +40,6 @@ def detect(filename):
 #     print('\n'.join(langs))
 #     git_gen.dump(langs)
 
-langs = [detect('main.py')]
+langs = [detect('ignoreme.py')]
 print('\n'.join(langs))
 git_gen.dump(langs)
