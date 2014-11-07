@@ -40,13 +40,12 @@ def readList(filename):
     return res
 
 def keywordsFromDirectory(dirname):
-    files = [f for f in os.listdir(dirname) if os.path.isfile(join(dirname, f))]
+    files = [join(dirname, f) for f in os.listdir(dirname) if os.path.isfile(join(dirname, f))]
+    files = filter(lambda fname: fname.endswith("_keywords.txt"), files)
     def sanitize(fname):
         kw = str(fname).find("_keywords.txt")
-        if kw != -1: return fname[0:kw]
-        ext = str(fname).find(".txt")
-        if ext != -1: return fname[0:ext]
-        return fname
+        if kw != -1: return os.path.basename(fname[0:kw])
+        raise AssertionError("Should not happend")
 
     return dict([(sanitize(filename), readList(filename)) for filename in files])
 
