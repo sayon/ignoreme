@@ -40,7 +40,8 @@ def detect(filename):
     inputs, _ = inputs_dict(filename, kws, langs)
     model_coeffs = cfg.read_config(relative_path(MODEL_CONFIG, __file__))
     responses_dict = compute_neurons(inputs, model_coeffs)
-    min_response = min(responses_dict.iteritems(), key=snd)
+    print(responses_dict)
+    min_response = max(responses_dict.iteritems(), key=snd)
     return fst(min_response).capitalize()
 
 
