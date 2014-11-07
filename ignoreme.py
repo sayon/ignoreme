@@ -15,6 +15,9 @@ KEYWORDS_PATHS = ['lexers/utils/c_keywords.txt',
                   'lexers/utils/python_keywords.txt']
 
 
+KEYWORDS_DIR = 'lexers/utils'
+
+
 MODEL_CONFIG = 'neurons.csv'
 
 
@@ -25,8 +28,8 @@ def inputs_dict(filename, kws):
 
 
 def detect(filename):
-    paths = map(lambda path_part: relative_path(path_part, __file__), KEYWORDS_PATHS)
-    inputs = inputs_dict(filename, cfg.read_kws(paths))
+    kws = cfg.read_kws(relative_path(KEYWORDS_DIR, __file__))
+    inputs = inputs_dict(filename, kws)
     inputs.update({'intercept' : 1})
     features_order = inputs.keys()
     model_coeffs = cfg.read_config(relative_path(MODEL_CONFIG, __file__))

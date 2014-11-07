@@ -2,7 +2,7 @@ __author__ = 'mrx'
 
 import csv
 from os import path
-from lexers.utils.common import readList
+import lexers.utils.common as lex
 
 
 def relative_path(path_part, relative=__file__):
@@ -53,6 +53,6 @@ def read_config(config_path):
         return dict(map(lambda x: (x[0][1], dict(x[1:])), raw_dicts))
 
 
-def read_kws(files):
-    kws_lists = map(lambda x: readList(x), files)
-    return reduce(lambda x, y: x + y, kws_lists)
+def read_kws(dirpath):
+    kws_lists = lex.keywordsFromDirectory(dirpath).values()
+    return list(reduce(lambda acc, x: acc.update(x), set(), kws_lists))
