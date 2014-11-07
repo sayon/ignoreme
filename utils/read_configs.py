@@ -54,5 +54,6 @@ def read_config(config_path):
 
 
 def read_kws(dirpath):
-    kws_raw = sum(lex.keywordsFromDirectory(dirpath).values(), [])
-    return sorted(list(set(kws_raw)))
+    kws_dict = lex.keywordsFromDirectory(dirpath)
+    kws_raw = sum(kws_dict.values(), [])
+    return kws_dict.keys(), list(set(kws_raw))

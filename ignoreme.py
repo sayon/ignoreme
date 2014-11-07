@@ -21,19 +21,25 @@ KEYWORDS_DIR = 'lexers/utils'
 MODEL_CONFIG = 'neurons.csv'
 
 
-def inputs_dict(filename, kws):
+def inputs_dict(filename, kws, langs):
     with open(filename, "r") as in_file:
         contents = in_file.read()
-        return lex.keywordsAndSymbolsFrequencies(kws, contents)
+        inp_list_raw = lex.keywordsAndSymbolsFrequencies(kws, contents)
+        inp_list = {}
+        for k, v in inp_list_raw.iteritems():
+            inp_list[str(k)] = v
+        inp_list.update({'intercept' : 1})
+    inp_dict = {}
+    for l in langs:
+        inp_dict.update({l: inp_list})
+    return inp_dict, map(lambda x: str(x), inp_list.keys())
 
 
 def detect(filename):
-    kws = cfg.read_kws(relative_path(KEYWORDS_DIR, __file__))
-    inputs = inputs_dict(filename, kws)
-    inputs.update({'intercept' : 1})
-    features_order = inputs.keys()
+    langs, kws = cfg.read_kws(relative_path(KEYWORDS_DIR, __file__))
+    inputs, _ = inputs_dict(filename, kws, langs)
     model_coeffs = cfg.read_config(relative_path(MODEL_CONFIG, __file__))
-    responses_dict = compute_neurons(inputs, model_coeffs, features_order)
+    responses_dict = compute_neurons(inputs, model_coeffs)
     min_response = min(responses_dict.iteritems(), key=snd)
     return fst(min_response).capitalize()
 

@@ -8,7 +8,8 @@ import operator
 
 
 def neuron_create(name, model_coeffs, features_order):
-    return name, map(lambda x: float(x), ut.dict_to_list(model_coeffs, features_order))
+    model_coeffs_list = ut.dict_to_list(model_coeffs, features_order)
+    return name, map(lambda x: float(x), model_coeffs_list)
 
 
 def neuron_name(neuron):
@@ -29,7 +30,7 @@ def neuron_compute(neuron, input):
 #compute
 
 
-def compute_neurons(inputs, models_coefficients, features_order):
+def compute_neurons(inputs, models_coefficients):
     """
     Multiply inputs and model coefficients in specified order
 
@@ -45,9 +46,13 @@ def compute_neurons(inputs, models_coefficients, features_order):
     :return: dict<string, float> - format:
     {model_name1 : response1, model_name2 : response2, ...}
     """
-    neurons = [neuron_create(k, v, features_order) for k, v in models_coefficients.iteritems()]
-    raw_dict = [
-        (neuron_name(n),
-         neuron_compute(n, ut.dict_to_list(inputs.get(neuron_name(n)), features_order)))
-        for n in neurons]
-    return dict(raw_dict)
+    raw_dict = {}
+    for lang, coeffs in models_coefficients.iteritems():
+        inp_for_lang = inputs[lang]
+        acc = 0
+        for coeff_name, coeff_val in coeffs.iteritems():
+            inp_for_coeff = inp_for_lang.get(coeff_name, None)
+            acc = acc + float(coeff_val) * float(inp_for_coeff)
+        raw_dict[lang] = acc
+
+    return raw_dict

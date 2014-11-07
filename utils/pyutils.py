@@ -21,6 +21,12 @@ def relative_path(path_part, relative=__file__):
 
 def dict_to_list(d, order):
     if order:
-        return [d.get(k) for k in order]
+        res = []
+        for k in order:
+            e = d.get(k)
+            if e is None:
+                e = d.get(str(k))
+            res.append(float(e))
+        return res
     else:
         return list(d.itervalues())
