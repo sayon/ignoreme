@@ -27,6 +27,10 @@ def goodChar(c):
     n = ord(c)
     return (n >=33 and n <= 47 ) or (n >= 58 and n <= 64 ) or (n >= 91 and n <= 96) or (n >= 123 and n <= 126)
 
+def goodCharsList():
+    return filter(lambda c: goodChar(chr(c)),range(0, 255))
+
+
 def readList(filename):
     f = open(filename)
     res = list(map(lambda w: w.replace("\n", ""), f.readlines()))
@@ -47,4 +51,8 @@ def keywordsAndSymbolsFrequencies(kws, contents):
     for w in features.keys():
         if length_total != 0:
             features[w] /= 1. * length_total
+    for code in goodCharsList():
+        if not code in features:
+            features[code] = 0
+
     return features
