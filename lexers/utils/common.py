@@ -1,3 +1,5 @@
+import os
+from os.path import join
 from re import findall
 import mmap
 
@@ -36,6 +38,17 @@ def readList(filename):
     res = list(map(lambda w: w.replace("\n", ""), f.readlines()))
     f.close()
     return res
+
+def keywordsFromDirectory(dirname):
+    files = [f for f in os.listdir(dirname) if os.path.isfile(join(dirname, f))]
+    def sanitize(fname):
+        kw = str(fname).find("_keywords.txt")
+        if kw != -1: return fname[0:kw]
+        ext = str(fname).find(".txt")
+        if ext != -1: return fname[0:ext]
+        return fname
+
+    return dict([(sanitize(filename), readList(filename)) for filename in files])
 
 def keywordsAndSymbolsFrequencies(kws, contents):
     length_total = 0
