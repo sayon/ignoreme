@@ -1,6 +1,11 @@
 __author__ = 'mrx'
 
 import csv
+from os import path
+
+
+def relative_path(path_part, relative=__file__):
+    return path.join(path.join(path.dirname(relative), path_part))
 
 
 def read_config():
@@ -14,7 +19,7 @@ def read_config():
     predictors dict. Predictors dict maps predictor names to coefficients. Output example:
     {"java" : {"final" : 10.22, "ArrayList" : 12.00 }, "c" : {"final" : 0.11, "ArrayList" : 0 }}
     """
-    with open('./app/neurons.csv', 'rb') as cfg_file:
+    with open(relative_path('neurons.csv'), 'rb') as cfg_file:
         csv_reader = csv.reader(cfg_file)
         rows = [row for row in csv_reader]
         if len(rows) < 2:
@@ -24,8 +29,9 @@ def read_config():
         raw_dicts = [zip(head, entry) for entry in tail]
         return dict(map(lambda x: (x[0][1], dict(x[1:])), raw_dicts))
 
+
 # def read_config():
-#     """
+# """
 #     Reads config.csv that contains logistic regression models coefficients. config2.csv example:
 #     "","final","ArrayList"
 #     "java",10.22,12.00
