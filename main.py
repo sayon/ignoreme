@@ -63,7 +63,8 @@ def detect(filename):
         if v < min_response[1]:
             min_response = (k, v)
     print(min_response[0])
-    return min_response[0]
+    # Capitalize language so downloader will download it correctly
+    return min_response[0].capitalize()
 
 
 if __name__ == '__main__':
