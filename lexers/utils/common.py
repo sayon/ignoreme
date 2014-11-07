@@ -35,7 +35,7 @@ def goodCharsList():
 
 def readList(filename):
     f = open(filename)
-    res = list(map(lambda w: w.replace("\n", ""), f.readlines()))
+    res = list(map(lambda w: w.strip(), f.readlines()))
     f.close()
     return res
 
