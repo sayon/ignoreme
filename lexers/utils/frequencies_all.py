@@ -1,7 +1,8 @@
 import os
 from os.path import join
 
-from common import readList,  quote, keywordsAndSymbolsFrequencies
+from common import readList,  quote, keywordsAndSymbolsFrequencies, goodCharsList
+from lexers.utils import common
 
 
 languages = readList("langs.txt")
@@ -12,7 +13,6 @@ for language in languages:
     files = [f for f in os.listdir(language) if os.path.isfile(join(language, f))]
     fileno = 1
     kws = readList(language + "_keywords.txt")
-
     for filename in files:
         print filename, " file ", fileno, " out of ", len(files)
         fileno += 1
@@ -31,4 +31,3 @@ with open("out_nonalpha.csv", "w") as out:
         for feature in allFeatures:
                 out.write("," + str( results[entry][0].get(feature, 0)))
         out.write("\n")
-

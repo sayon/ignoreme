@@ -42,6 +42,8 @@ def keywordsAndSymbolsFrequencies(kws, contents):
     features = dict()
     for kw in kws:
         features[kw] = len(findall(kw, contents))
+    for code in goodCharsList():
+        features[code] = 0
 
     for sym in contents:
         if goodChar(sym):
@@ -51,8 +53,5 @@ def keywordsAndSymbolsFrequencies(kws, contents):
     for w in features.keys():
         if length_total != 0:
             features[w] /= 1. * length_total
-    for code in goodCharsList():
-        if not code in features:
-            features[code] = 0
 
     return features
