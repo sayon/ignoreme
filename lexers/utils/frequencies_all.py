@@ -1,8 +1,7 @@
 import os
 from os.path import join
 
-from common import readList,  quote, keywordsAndSymbolsFrequencies, goodCharsList
-from lexers.utils import common
+from common import readList,  quote, keywordsAndSymbolsFrequencies
 
 
 languages = readList("langs.txt")
@@ -14,7 +13,8 @@ for language in languages:
     fileno = 1
     kws = readList(language + "_keywords.txt")
     for filename in files:
-        print filename, " file ", fileno, " out of ", len(files)
+        if fileno % 10 == 0:
+            print filename, " file ", fileno, " out of ", len(files)
         fileno += 1
 
         with open(language + "/" + filename, 'r') as file:
