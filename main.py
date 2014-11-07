@@ -7,7 +7,7 @@ import app.utils as ut
 import app.read_configs as cfg
 from lexers.utils import frequencies_kw_input as lex
 from gitignore_gen import gen as gitgen
-from utils.pyutils import relative_path
+from utils.pyutils import relative_path, snd, fst
 
 
 def compute_neurons(inputs, models_coefficients, features_order):
@@ -58,13 +58,10 @@ def detect(filename):
         model_c[k] = dict(filter(lambda x: x[0] in kws, v.iteritems()))
     inputs = inputs_dict(filename, kws, model_c)
     responses_dict = compute_neurons(inputs, model_coeffs, kws)
-    min_response = ("", 2)
-    for k, v in responses_dict.iteritems():
-        if v < min_response[1]:
-            min_response = (k, v)
-    print(min_response[0])
+    min_response = min(responses_dict.iteritems(), key=snd)
+    print(fst(min_response))
     # Capitalize language so downloader will download it correctly
-    return min_response[0].capitalize()
+    return fst(min_response).capitalize()
 
 
 if __name__ == '__main__':
