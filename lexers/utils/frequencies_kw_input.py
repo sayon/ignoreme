@@ -1,12 +1,13 @@
 import re
 import sys
+from lexers.utils.common import keywordsAndSymbolsFrequencies
+
 
 def readList(filename):
     f = open(filename)
     res = list(map(lambda w: w.replace("\n", ""), f.readlines()))
     f.close()
     return res
-
 
 def countKeywords(kws, filename):
     count = dict()
@@ -23,8 +24,14 @@ def countKeywords(kws, filename):
     return count
 
 
+
+def countKeywordsAndSymbols(kws, filename):
+    with open(filename, 'r') as file:
+        return keywordsAndSymbolsFrequencies(kws, file.read())
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.stderr.write("usage: progname dictionary_file file_to_count_kws")
     else:
-        print countKeywords(readList(sys.argv[1]), sys.argv[2])
+        print countKeywordsAndSymbols(readList(sys.argv[1]), sys.argv[2])
