@@ -16,4 +16,11 @@ def last(l):
 
 
 def relative_path(path_part, relative=__file__):
-    return path.join(path.join(path.dirname(relative), path_part))
+    return path.join(path.join(path.dirname(path.abspath(relative)), path_part))
+
+
+def dict_to_list(d, order):
+    if order:
+        return [d.get(k) for k in order]
+    else:
+        return list(d.itervalues())
