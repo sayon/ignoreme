@@ -29,8 +29,7 @@ def compute_neurons(inputs, models_coefficients, features_order):
     neurons = [ut.neuron_create(k, v, features_order) for k, v in models_coefficients.iteritems()]
     raw_dict = [
         (ut.neuron_name(n),
-         ut.neuron_compute(n, ut.dict_to_list(inputs.get(ut.neuron_name(n)), features_order))
-        )
+         ut.neuron_compute(n, ut.dict_to_list(inputs.get(ut.neuron_name(n)), features_order)))
         for n in neurons]
     return dict(raw_dict)
 
