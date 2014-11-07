@@ -1,6 +1,7 @@
 __author__ = 'nikita_kartashov'
 
 from os import path
+from itertools import chain
 
 
 def fst(l):
@@ -30,3 +31,8 @@ def dict_to_list(d, order):
         return res
     else:
         return list(d.itervalues())
+
+
+def flatten(l):
+    return list(chain.from_iterable(l))
+
