@@ -14,7 +14,7 @@ def read_config():
     predictors dict. Predictors dict maps predictor names to coefficients. Output example:
     {"java" : {"final" : 10.22, "ArrayList" : 12.00 }, "c" : {"final" : 0.11, "ArrayList" : 0 }}
     """
-    with open('neurons.csv', 'rb') as cfg_file:
+    with open('./app/neurons.csv', 'rb') as cfg_file:
         csv_reader = csv.reader(cfg_file)
         rows = [row for row in csv_reader]
         if len(rows) < 2:

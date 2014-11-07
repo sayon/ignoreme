@@ -1,7 +1,7 @@
 __author__ = 'mrx'
 
-import utils as ut
-import read_configs as cfg
+import app.utils as ut
+import app.read_configs as cfg
 from lexers.utils import frequencies_kw_input as lex
 from gitignore_gen import gen as gitgen
 import sys
@@ -41,9 +41,9 @@ def inputs_dict(filename, kws, model_coeffs):
     return dict([(name, inp) for name, _ in model_coeffs.iteritems()])
 
 def detect(filename):
-    kws = cfg.read_kws('../lexers/utils/c_keywords.txt',
-                       '../lexers/utils/java_keywords.txt',
-                       '../lexers/utils/python_keywords.txt')
+    kws = cfg.read_kws('./lexers/utils/c_keywords.txt',
+                       './lexers/utils/java_keywords.txt',
+                       './lexers/utils/python_keywords.txt')
     model_coeffs = cfg.read_config()
     model_c = {}
     for k, v in model_coeffs.iteritems():
@@ -57,69 +57,4 @@ def detect(filename):
     print min_response[0]
 
 if __name__ == '__main__':
-    map(lambda x: detect(x), sys.argv)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def inputs_dict2(filename, kws, model_coeffs):
-#     inp = lex.countKeywordsAndSymbols(kws, filename)
-#     all_features = model_coeffs.values()[0]
-#     for k, v in all_features.iteritems():
-#         if k not in inp and k != 'intercept':
-#             inp[k] = 0
-#         elif k == 'intercept':
-#             inp[k] = 1
-#     return dict([(name, inp) for name, _ in model_coeffs.iteritems()])
-#
-# def main2(filename):
-#     kws = cfg.read_kws('../lexers/utils/c_keywords.txt',
-#                        '../lexers/utils/java_keywords.txt',
-#                        '../lexers/utils/python_keywords.txt')
-#     model_coeffs = cfg.read_config()
-#     inputs = inputs_dict2(filename, kws, model_coeffs)
-#     responses_dict = compute_neurons(inputs, model_coeffs, kws)
-#     min_response = ("", 2)
-#     for k, v in responses_dict.iteritems():
-#         if v < min_response[1]:
-#             min_response = (k, v)
-#     print min_response[0]
-#
-# main('main.py')
-# main('utils.py')
-# main('/home/mrx/GitRepos/JavaIndexer/src/main/java/indexer/ExampleRepl.java')
-# main('/home/mrx/Trash/emacs/src/unexsol.c')
+    map(lambda x: detect(x), sys.argv[1:])
