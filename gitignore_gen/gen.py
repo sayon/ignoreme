@@ -25,7 +25,7 @@ def pull():
 def dump(langs):
     init()
     with open(".gitignore", 'w+') as output:
-        for lang in langs:
+        for lang in set(langs):
             path = "%s/%s.gitignore" % (local_repo, lang)
             if os.path.exists(path):
                 with open(path, 'r') as f:

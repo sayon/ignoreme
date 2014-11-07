@@ -72,7 +72,7 @@ def detect_directory(directory):
 def detect_args(args):
     langs = flatten(map(detect_arg, args[1:]))
     print('\n'.join(langs))
-    # git_gen.dump(langs)
+    git_gen.dump(langs)
 
 
 # if __name__ == '__main__':
