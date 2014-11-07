@@ -1,4 +1,4 @@
-__author__ = 'admin'
+__author__ = 'novokonst'
 
 import ply.lex as lex
 
@@ -58,8 +58,8 @@ JAVA_KEYWORDS = [
 
 
 class JavaTokenizer:
-
-    RESERVED = {kw: kw for kw in JAVA_KEYWORDS}
+    MY_KEYWORDS = JAVA_KEYWORDS
+    RESERVED = {kw: kw for kw in MY_KEYWORDS}
 
     tokens = RESERVED.values() + [
         'ID'
@@ -84,10 +84,10 @@ class JavaTokenizer:
 
     @check_comment
     def t_ID(self, t):
-        t.type = JavaTokenizer.RESERVED.get(t.value, 'ID')
+        t.type = self.__class__.RESERVED.get(t.value, 'ID')
         return t
 
-    # @check_comment
+    @check_comment
     def t_STRING_LITERAL(self, t):
         return t
 
@@ -138,10 +138,14 @@ class JavaTokenizer:
 
     def tokenize(self, data):
         self.lexer.input(data)
-        out_token_dict = {}
+        self.out_token_dict = {}
         while True:
             tok = self.lexer.token()
             if not tok: break
-            out_token_dict[tok.type] = out_token_dict.get(tok.type, [])
-            out_token_dict[tok.type].append(tok)
-        return out_token_dict
+            self.out_token_dict[tok.type] = self.out_token_dict.get(tok.type, [])
+            self.out_token_dict[tok.type].append(tok)
+        return self.out_token_dict
+
+    def keywords_ex_stats(self, extra_type_list=[]):
+        keys = JavaTokenizer.MY_KEYWORDS + extra_type_list
+        return {k: self.out_token_dict.get(k, []) for k in keys}
