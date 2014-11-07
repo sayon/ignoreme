@@ -1,11 +1,10 @@
 __author__ = 'mrx'
 
+import operator
 
 # def enum(*sequential, **named):
 #     enums = dict(zip(sequential, range(len(sequential))), **named)
 #     return type('Enum', (), enums)
-
-import operator
 
 
 def dict_to_list(d, order):
@@ -17,7 +16,7 @@ def dict_to_list(d, order):
 # neuron
 
 def neuron_create(name, model_coeffs, features_order):
-    return name, map(lambda x: float(x), utils.dict_to_list(model_coeffs, features_order))
+    return name, map(lambda x: float(x), dict_to_list(model_coeffs, features_order))
 
 def neuron_name(neuron): return neuron[0]
 def neuron_coeffs(neuron): return neuron[1]
