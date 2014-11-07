@@ -38,3 +38,5 @@ def dump(langs):
 
 # usage:
 # dump(['java', 'haskell', 'agda'])
+if __name__ == '__main__':
+    dump(['java'])

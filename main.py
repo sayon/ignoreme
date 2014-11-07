@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 __author__ = 'mrx'
 
+import sys
+
 import app.utils as ut
 import app.read_configs as cfg
 from lexers.utils import frequencies_kw_input as lex
 from gitignore_gen import gen as gitgen
-import sys
-from os import path
 from utils.pyutils import relative_path
 
 
@@ -62,7 +62,8 @@ def detect(filename):
     for k, v in responses_dict.iteritems():
         if v < min_response[1]:
             min_response = (k, v)
-    print min_response[0]
+    print(min_response[0])
+    return min_response[0]
 
 
 if __name__ == '__main__':
